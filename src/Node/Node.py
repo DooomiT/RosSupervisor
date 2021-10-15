@@ -9,13 +9,14 @@ class Node:
         self.tag = tag
         self.args = args
         self.activity = "init"
+        self.process = None
         logger.info("initialised")
         logger.debug(f"name: {name}, path:{path}, tag:{tag}, args:{args}")
 
     def __str__(self):
         return(f"name: {self.name}\activity:{self.activity}\npath:{self.path}\ntag:{self.tag}\nargs:{self.args}")
 
-    def getArgs(self, argument_key) -> str or None:
+    def getArg(self, argument_key) -> str or None:
         if argument_key in self.args.keys():
             argument = self.args[argument_key]
             logger.info("returning argument")
@@ -45,3 +46,9 @@ class Node:
         logger.info("returning name")
         logger.debug(f"getName: name = {self.name}")
         return self.name
+
+    def getProcess(self):
+        return self.process
+        
+    def setProcess(self, process):
+        self.process = process

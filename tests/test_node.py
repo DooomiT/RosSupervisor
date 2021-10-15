@@ -3,7 +3,7 @@ from src.Node.Node import Node
 
 node = Node("test_name", "test/path", "test-tag", {"test-arg": "foo", "test-arg2": "bar"})
 
-def testGetArgs():
+def testGetArg():
     assert node.getArgs("test-arg") == "foo"
     assert node.getArgs("foo") == None
 

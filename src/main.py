@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 def setup() -> None:
     node_specification_path = path.join(getcwd(), "node-specification.yml")
     node_handler = NodeHandler(node_specification_path)
+    node_handler.handle("Node1", "start")
 
 
 if __name__ == "__main__":

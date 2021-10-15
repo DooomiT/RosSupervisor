@@ -8,6 +8,7 @@ except ImportError:
 
 from src.Node.Node import Node
 
+import subprocess
 import logging
 logger = logging.getLogger(__name__)
 
@@ -19,12 +20,12 @@ class NodeHandler:
         node_specification = load(node_specification_file, Loader)
         node_specification_file.close()
         # Create Nodes
-        self.nodes = []
+        self.nodes = {}
         try:
             for node in node_specification['Nodes'].values():
                 new_node = Node(node['name'], node['path'],
                                 node['tag'], node['args'])
-                self.nodes.append(new_node)
+                self.nodes[node['name']] = new_node
                 logger.info("added Node")
                 logger.debug(new_node)
 
@@ -36,8 +37,22 @@ class NodeHandler:
 
     def getNodeActivities(self) -> dict:
         activities = {}
-        for node in self.nodes:
-            activities[node.getName()] = node.getActivity()
+        for node_name in self.nodes:
+            activities[self.nodes[node_name].getName()] = self.nodes[node_name].getActivity()
         logger.info("returning activities")
         logger.debug(activities)
         return activities
+
+    #TODO: overthink wf
+    def handle(self, node_name, argument_key):
+        for node_name in self.nodes:
+            if self.nodes[node_name].getName() == node_name:
+                argument = self.nodes[node_name].getArg(argument_key)
+                #TODO: maybe handle for correct arguments?
+                if argument:
+                    self.nodes[node_name].setProcess(subprocess.Popen(argument ))
+            else:
+                logger.error(f"handle: Node {node_name} does not exist")
+                return
+        logger.info("handled")
+        logger.debug(f"handle: node_name = {node_name}, argument_key = {argument_key}")
