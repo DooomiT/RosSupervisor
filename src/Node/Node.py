@@ -17,7 +17,7 @@ class Node:
 
     def getArgs(self, argument_key) -> str or None:
         if argument_key in self.args.keys():
-            argument = self.args['argument_key_name']
+            argument = self.args[argument_key]
             logger.info("returning argument")
             logger.debug(f"getArgs: argument = {argument}")
             return argument
